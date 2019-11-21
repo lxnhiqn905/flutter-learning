@@ -16,6 +16,10 @@
 	4. Create list view
 	5. Make beatifull app with Gradients Background
 	6. Create detail page
+	7. Create add new page
+	8. Make form to store data and submit into List that initializated
+	9. Make the app can Vote
+	10. ... 
 	
 
 
