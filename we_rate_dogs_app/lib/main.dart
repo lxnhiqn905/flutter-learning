@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:we_rate_dogs_app/dog_list.dart';
+import 'package:we_rate_dogs_app/new_dog_form.dart';
 
 /// import the modle
 import 'dog_model.dart';
@@ -37,7 +38,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // Make the mock data
   List<Dog> allDogs = []
-    ..add(Dog('Ruby', 'Portland, OR, USA',
+    ..add(Dog('Ruby Love', 'Portland, OR, USA',
         'Ruby is a very good girl. Yes: Fetch, loungin\'. No: Dogs who get on furniture.'))
     ..add(Dog('Rex', 'Seattle, WA, USA', 'Best in Show 1999'))
     ..add(Dog('Rod Stewart', 'Prague, CZ',
@@ -57,6 +58,14 @@ class _HomePageState extends State<HomePage> {
 
         /// The backgroud of application
         backgroundColor: Colors.green,
+
+        // Icon to add the new dog
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: _showNewDogForm,
+          )
+        ],
       ),
       // List of dogs
       body: Container(
@@ -76,5 +85,20 @@ class _HomePageState extends State<HomePage> {
         child: Center(child: DogList(allDogs)),
       ),
     );
+  }
+
+  // Should be a async function
+  // Create router to display new page
+  // After back, will add the new dog into allDogs
+  void _showNewDogForm() async {
+    Dog dog = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return AddDogFormPage();
+    }));
+
+    // After back from add dog form page
+    if (dog != null) {
+      allDogs.add(dog);
+    }
   }
 }

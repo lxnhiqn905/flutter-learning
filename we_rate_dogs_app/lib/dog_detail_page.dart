@@ -16,6 +16,9 @@ class _DogDetailPageState extends State<DogDetailPage> {
   // Size of avatar configuration
   final double dogAvatarSize = 150.0;
 
+  // Default rate value is 10
+  var _sliderValue = 10.0;
+
   Widget get dogImage {
     // Size of avatar
     return Container(
@@ -107,6 +110,67 @@ class _DogDetailPageState extends State<DogDetailPage> {
     );
   }
 
+  // The widget that using to vote for dog
+  Widget get yourRating {
+    return Column(
+      children: <Widget>[
+        Container(
+          // Padding
+          padding: EdgeInsets.symmetric(
+            vertical: 16.0,
+            horizontal: 16.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              // Create flexible area
+              Flexible(
+                flex: 1,
+                // Using slider to change value to vote
+                child: Slider(
+                  activeColor: Colors.indigoAccent,
+                  min: 0.0,
+                  max: 10.0,
+                  onChanged: (newRating) {
+                    setState(() => _sliderValue = newRating);
+                  },
+                  value: _sliderValue,
+                ),
+              ),
+              // Current value selected
+              Container(
+                width: 50,
+                alignment: Alignment.center,
+                child: Text(
+                  '${_sliderValue.toInt()}',
+                  style: Theme.of(context).textTheme.display1,
+                ),
+              ),
+            ],
+          ),
+        ),
+        // Submit button
+        submitRatingButton()
+      ],
+    );
+  }
+
+  // The submit button
+  Widget submitRatingButton() {
+    return RaisedButton(
+      onPressed: submitRating,
+      child: Text('Submit Vote'),
+      color: Colors.indigoAccent,
+    );
+  }
+
+  // Submit rate point into Dog object
+  void submitRating() {
+    setState(() {
+      widget.dog.rate = _sliderValue.toInt();
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     // This is a new page, so you need a new Scaffold!
@@ -118,7 +182,7 @@ class _DogDetailPageState extends State<DogDetailPage> {
           'Meet ${widget.dog.name}',
         ),
       ),
-      body: dogProfile,
+      body: ListView(children: <Widget>[dogProfile, yourRating]),
     );
   }
 }
