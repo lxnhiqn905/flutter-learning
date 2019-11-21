@@ -13,7 +13,7 @@ class DogDetailPage extends StatefulWidget {
 }
 
 class _DogDetailPageState extends State<DogDetailPage> {
-  // Arbitrary size choice for styles
+  // Size of avatar configuration
   final double dogAvatarSize = 150.0;
 
   Widget get dogImage {
@@ -54,8 +54,6 @@ class _DogDetailPageState extends State<DogDetailPage> {
   Widget get rating {
     // Use a row to lay out widgets horizontally.
     return Row(
-      // Center the widgets on the main-axis
-      // which is the horizontal axis in a row.
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Icon(
@@ -73,8 +71,6 @@ class _DogDetailPageState extends State<DogDetailPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 32.0),
       decoration: BoxDecoration(
-        // This would be a great opportunity to create a custom LinearGradient widget
-        // that could be shared throughout the app but I'll leave that to you.
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
@@ -111,11 +107,6 @@ class _DogDetailPageState extends State<DogDetailPage> {
     );
   }
 
-  //Finally, the build method:
-  //
-  // Aside:
-  // It's often much easier to build UI if you break up your widgets the way I
-  // have in this file rather than trying to have one massive build method
   @override
   Widget build(BuildContext context) {
     // This is a new page, so you need a new Scaffold!
