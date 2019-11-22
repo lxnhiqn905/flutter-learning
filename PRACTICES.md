@@ -19,10 +19,8 @@
 	7. Create add new page
 	8. Make form to store data and submit into List that initializated
 	9. Make the app can Vote
-	10. ... 
-	
-
-
+	10. Make UI with Snackbar and Dialog
+	11. Make beatifull app with Animation to display during loading image and Hero Transition to transit to detail page
 
 # simple_delivery_app
 	1. Model
