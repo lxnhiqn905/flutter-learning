@@ -21,51 +21,39 @@ class _DogDetailPageState extends State<DogDetailPage> {
 
   Widget get dogImage {
     // Size of avatar
-    return Container(
-      height: dogAvatarSize,
-      width: dogAvatarSize,
-      decoration: BoxDecoration(
-        // Using circle box
-        shape: BoxShape.circle,
-        boxShadow: [
-          const BoxShadow(
-              offset: const Offset(1.0, 2.0),
-              blurRadius: 2.0,
-              spreadRadius: -1.0,
-              color: const Color(0x33000000)),
-          const BoxShadow(
-              offset: const Offset(2.0, 1.0),
-              blurRadius: 3.0,
-              spreadRadius: 0.0,
-              color: const Color(0x24000000)),
-          const BoxShadow(
-              offset: const Offset(3.0, 1.0),
-              blurRadius: 4.0,
-              spreadRadius: 2.0,
-              color: const Color(0x1F000000)),
-        ],
-        // This is how you add an image to a Container's background.
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(widget.dog.imageUrl),
+    return Hero(
+      // Give a tag
+      tag: widget.dog,
+      child: Container(
+        height: dogAvatarSize,
+        width: dogAvatarSize,
+        decoration: BoxDecoration(
+          // Using circle box
+          shape: BoxShape.circle,
+          boxShadow: [
+            const BoxShadow(
+                offset: const Offset(1.0, 2.0),
+                blurRadius: 2.0,
+                spreadRadius: -1.0,
+                color: const Color(0x33000000)),
+            const BoxShadow(
+                offset: const Offset(2.0, 1.0),
+                blurRadius: 3.0,
+                spreadRadius: 0.0,
+                color: const Color(0x24000000)),
+            const BoxShadow(
+                offset: const Offset(3.0, 1.0),
+                blurRadius: 4.0,
+                spreadRadius: 2.0,
+                color: const Color(0x1F000000)),
+          ],
+          // This is how you add an image to a Container's background.
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(widget.dog.imageUrl),
+          ),
         ),
       ),
-    );
-  }
-
-  // The rating section that says ★ 10/10.
-  Widget get rating {
-    // Use a row to lay out widgets horizontally.
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Icon(
-          Icons.star,
-          size: 40.0,
-        ),
-        Text(' ${widget.dog.rate} / 10',
-            style: Theme.of(context).textTheme.display2),
-      ],
     );
   }
 
@@ -104,14 +92,30 @@ class _DogDetailPageState extends State<DogDetailPage> {
                 const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
             child: Text(widget.dog.description),
           ),
-          rating
+          ratingInfo
         ],
       ),
     );
   }
+  
+  // The rating section that says ★ 10/10.
+  Widget get ratingInfo {
+    // Use a row to lay out widgets horizontally.
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(
+          Icons.star,
+          size: 40.0,
+        ),
+        Text(' ${widget.dog.rate} / 10',
+            style: Theme.of(context).textTheme.display2),
+      ],
+    );
+  }
 
   // The widget that using to vote for dog
-  Widget get yourRating {
+  Widget get ratingForm {
     return Column(
       children: <Widget>[
         Container(
@@ -166,11 +170,34 @@ class _DogDetailPageState extends State<DogDetailPage> {
 
   // Submit rate point into Dog object
   void submitRating() {
-    setState(() {
-      widget.dog.rate = _sliderValue.toInt();
-    });
+    if (_sliderValue < 5) {
+      _showRatingWarningDialog();
+    } else {
+      setState(() {
+        widget.dog.rate = _sliderValue.toInt();
+      });
+    }
   }
-  
+
+  // Display the dialog content the waining message
+  Future<Null> _showRatingWarningDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Warning!'),
+          content: Text("They're good dogs, Bro."),
+          actions: [
+            FlatButton(
+              child: Text('Try Again'),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // This is a new page, so you need a new Scaffold!
@@ -182,7 +209,7 @@ class _DogDetailPageState extends State<DogDetailPage> {
           'Meet ${widget.dog.name}',
         ),
       ),
-      body: ListView(children: <Widget>[dogProfile, yourRating]),
+      body: ListView(children: <Widget>[dogProfile, ratingForm]),
     );
   }
 }

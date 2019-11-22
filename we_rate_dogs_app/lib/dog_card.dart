@@ -20,11 +20,9 @@ class DogCard extends StatefulWidget {
 /// State of the widget
 /// Will be render the image URL for each dog
 class _DogCardState extends State<DogCard> {
-  // VARIABLE ===================================================================================================================
   // Store the image URL will be render
   String renderUrl;
 
-  // SUPPER METHOD ===============================================================================================================
   // We should init state before build the dog card
   @override
   void initState() {
@@ -62,23 +60,55 @@ class _DogCardState extends State<DogCard> {
     );
   }
 
-  // GETTER METHOD ===============================================================================================================
   // The widget using to display dog image
   // This is getter
   Widget get dogImage {
-    return Container(
-        // Setting width-height
-        width: 100.0,
-        height: 100.0,
+    var dogAvatar = Hero(
+        // Give a tag
+        tag: widget.dog,
+        child: Container(
+            // Setting width-height
+            width: 100.0,
+            height: 100.0,
 
-        // Decor the image
-        decoration: BoxDecoration(
-            // Shape
-            shape: BoxShape.circle,
-            image: DecorationImage(
-                // Setting fit
-                fit: BoxFit.cover,
-                image: NetworkImage(renderUrl ?? ''))));
+            // Decor the image
+            decoration: BoxDecoration(
+                // Shape
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    // Setting fit
+                    fit: BoxFit.cover,
+                    image: NetworkImage(renderUrl ?? '')))));
+
+    // Placeholder has size same with avatar
+    var placeholder = Container(
+      width: 100.0,
+      height: 100.0,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.black54, Colors.black, Colors.blueGrey[600]],
+        ),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        'DOGGO',
+        textAlign: TextAlign.center,
+      ),
+    );
+
+    // Will be display dog avatar in this widget
+    // Display placeholder before avatar
+    return AnimatedCrossFade(
+      firstChild: placeholder,
+      secondChild: dogAvatar,
+      crossFadeState: renderUrl == null
+          ? CrossFadeState.showFirst
+          : CrossFadeState.showSecond,
+      duration: Duration(milliseconds: 10000),
+    );
   }
 
   // The widget using to display dog information
@@ -122,7 +152,6 @@ class _DogCardState extends State<DogCard> {
         ));
   }
 
-  // PRIVATE METHOD ===============================================================================================================
   // A method to execute render URL. This is async method
   void renderDogImageUrl() async {
     // Call method to render URL.
@@ -136,14 +165,10 @@ class _DogCardState extends State<DogCard> {
       });
     }
   }
-  void showDogDetailPage() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return DogDetailPage(widget.dog);
-        }
-      )
-    );
-  }
 
+  void showDogDetailPage() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return DogDetailPage(widget.dog);
+    }));
+  }
 }
