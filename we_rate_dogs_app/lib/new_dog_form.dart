@@ -77,7 +77,7 @@ class _AddDogFormPageState extends State<AddDogFormPage> {
                 child: Builder(
                   builder: (context) {
                     return RaisedButton(
-                      onPressed: submitPup,
+                      onPressed: () => submitPup(context),
                       color: Colors.green,
                       child: Text('Submit Pup'),
                     );
@@ -91,9 +91,14 @@ class _AddDogFormPageState extends State<AddDogFormPage> {
     );
   }
 
-  void submitPup() {
+  void submitPup(BuildContext context) {
     if (nameController.text.isEmpty) {
-      print('name is empty');
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Text('Pups neeed names!'),
+        ),
+      );
     } else {
       var newDog = Dog(nameController.text, locationController.text,
           descriptionController.text);
