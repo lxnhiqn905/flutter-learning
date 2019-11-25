@@ -22,15 +22,3 @@
 	10. Make UI with Snackbar and Dialog
 	11. Make beatifull app with Animation to display during loading image and Hero Transition to transit to detail page
 
-# simple_firebase_auth_app
-	## This section is all about learning how to use the InheritedWidget for state management.	
-	1. Create page structure
-	2. Add firebase
-	3. 
-
-# simple_delivery_app
-	1. Model
-	2. Create account and active by email
-	3. Login
-	4. List view service
-	5. 
