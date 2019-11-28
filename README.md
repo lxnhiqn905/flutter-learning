@@ -12,7 +12,7 @@
 		4. The developer has full control over the widgets and layout
 		5. Comes with beautiful, customizable widgets
 		6. Great developer tools, with amazing hot reload
-		7 More performant, more compatibility, more fun
+		7.  More performant, more compatibility, more fun
 
 	- More details
 		-> https://hackernoon.com/whats-revolutionary-about-flutter-946915b09514
